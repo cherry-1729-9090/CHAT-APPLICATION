@@ -1,9 +1,11 @@
 import { Dialog, Box, styled } from "@mui/material"
+import { useContext } from "react";
+import { AccountContext } from "../../context/AccountProvider";
 
 // component imports
 import Menu from './menu/Menu'
 import Emptychat from "./chat/Emptychat";
-
+import ChatBox from "./chat/ChatBox";
 
 // styling
 const DialogBox = {
@@ -20,20 +22,24 @@ const Component = styled(Box)({
   height: '100%',
 });
 
-
 const LeftComponent = styled(Box)({
   minWidth: '450px',
   height: '100%',
 });
 
 const RightComponent = styled(Box)({
-  width:'75%',
+  width: '75%',
   minWidth: '300px',
   height: '92%',
   borderLeft: '1px solid rgba(0,0,0,0.18)',
 });
 
-function chatDialog() {
+function ChatDialog() {
+  const { person } = useContext(AccountContext);
+
+  // Use a safe check to ensure person is an object before using Object.keys
+  const hasPerson = person && Object.keys(person).length > 0;
+
   return (
     <div>
       <Dialog
@@ -42,7 +48,6 @@ function chatDialog() {
         fullWidth={true}
         hideBackdrop={true}
       >
-
         <Component>
           {/* Left component is the component that shows contacts */}
           <LeftComponent>
@@ -51,7 +56,7 @@ function chatDialog() {
 
           {/* Right component is the component that shows the chat */}
           <RightComponent>
-            <Emptychat />
+            {hasPerson ? <ChatBox /> : <Emptychat />}
           </RightComponent>
 
         </Component>
@@ -60,4 +65,4 @@ function chatDialog() {
   )
 }
 
-export default chatDialog
+export default ChatDialog;

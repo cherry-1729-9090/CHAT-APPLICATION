@@ -34,13 +34,16 @@ const Icon = styled(Box)({
   zIndex: 1,
 });
 
-function Search() {
+function Search({ setText }) {
   return (
     <Component>
       <Icon>
         <SearchIcon />
       </Icon>
-      <InputField placeholder="Search or Start new chat" />
+      <InputField
+        placeholder="Search or Start new chat"
+        onChange={(e) => setText(e.target.value)}
+      />
     </Component>
   );
 }

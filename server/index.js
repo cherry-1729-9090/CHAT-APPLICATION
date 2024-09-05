@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes.js';
+import conversationRoutes from './routes/conversationRoutes.js';
+
 dotenv.config();
 
 const app = express();
@@ -25,3 +27,4 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 
 app.use('/users', userRoutes);
+app.use('/conversations', conversationRoutes);

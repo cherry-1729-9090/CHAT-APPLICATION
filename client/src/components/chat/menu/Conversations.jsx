@@ -1,50 +1,53 @@
-import { getAllUsers } from "../../../service/userCalls"
-import { useEffect, useState, useContext } from 'React'
-import { Box, styled, Divider } from '@mui/material'
-import Converation from './Conversation'
-import { AccountContext } from '../../../context/AccountProvider'
-
+import { useEffect, useState, useContext } from 'react';
+import { Box, styled, Divider } from '@mui/material';
+import Converation from './Conversation';
+import { AccountContext } from '../../../context/AccountProvider';
+import { getAllUsers } from "../../../service/userCalls";
 
 // styled
 const Component = styled(Box)({
     height: '80vh',
     overflow: 'overlay',
-})
+});
 
 const StyledDivider = styled(Divider)({
     margin: '0 0 0 0px',
-    opacity: 0.4
+    opacity: 0.4,
+});
 
-})
-
-
-function Conversations() {
-
-    let [Users, setUsers] = useState([]);
+function Conversations({ text }) {
+    const [Users, setUsers] = useState([]);
+    const [allUsers, setAllUsers] = useState([]); 
     const { account } = useContext(AccountContext);
 
     useEffect(() => {
         const fetchUsers = async () => {
-            let users = await getAllUsers();
-            console.log(users);
-            setUsers(users);
-        }
+            const users = await getAllUsers();
+            setAllUsers(users);
+        };
         fetchUsers();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        const filteredUsers = allUsers.filter(user => 
+            user.name.toLowerCase().includes(text.toLowerCase())
+        );
+        setUsers(filteredUsers);
+    }, [text, allUsers]); 
 
     return (
         <Component>
-            {/* <Converation/> */}
-            {Users.map((user) => {
-
-                return user.sub !== account.sub && 
-                <>
-                    <Converation key={user._id} user={user} />
-                    <StyledDivider />
-                </>
-            })}
+            {Users.map((user) => (
+                user.sub !== account.sub &&
+                (
+                    <div key={user._id}>
+                        <Converation user={user} />
+                        <StyledDivider />
+                    </div>
+                )
+            ))}
         </Component>
-    )
+    );
 }
 
-export default Conversations
+export default Conversations;

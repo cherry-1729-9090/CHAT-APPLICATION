@@ -57,7 +57,6 @@ function LoginDialog() {
             console.log("Decoded JWT:", decoded);
             setAccount(decoded);
             const response = await addUser(decoded); // Renamed res to response to avoid conflict
-            window.alert('User added successfully:');
             console.log(response);
         } catch (error) {
             console.error("Error decoding JWT:", error);
@@ -68,7 +67,7 @@ function LoginDialog() {
         console.log(res);
     }
 
-    return ( // Moved return inside the function
+    return ( 
         <Dialog
             open={true}
             PaperProps={{ sx: DialogBox }}

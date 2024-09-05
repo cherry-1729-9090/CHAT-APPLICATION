@@ -14,7 +14,7 @@ export const addUser = async (req, res) => {
             return res.status(201).json(newUser);
         }
     } catch (error) {
-        res.status(500).json({ message: "Something went wrong", error });
+        return res.status(500).json({ message: "Something went wrong", error });
     }
 };
 
@@ -26,6 +26,8 @@ export const getAllUsers = async (req,res) =>{
         return res.status(200).json(Users);
     }
     catch(error){
-        res.status(500).json({message : "Something went wrong", error});
+        return res.status(500).json({message : "Something went wrong", error});
     }
 }
+
+
